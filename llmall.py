@@ -47,10 +47,10 @@ def print_table(connection):
 
 if __name__ == '__main__':
 
+	connection = get_db_connection()
 	if len(sys.argv) == 1:
 		print_table(connection)
 	else:
-		connection = get_db_connection()
 		init_table(connection)
 		new_data = " ".join(sys.argv[1:])
 		add_to_table(new_data, connection)
