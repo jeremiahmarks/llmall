@@ -1,0 +1,1 @@
+Today we set up a digital ocean droplet and ensure we could serve data over it. 
