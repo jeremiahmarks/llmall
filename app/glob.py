@@ -2,7 +2,7 @@
 # @Author: Jeremiah.Marks
 # @Date:   2026-08-18 13:18:10
 # @Last Modified by:   Jeremiah.Marks
-# @Last Modified time: 2026-08-18 14:03:19
+# @Last Modified time: 2026-08-18 15:00:43
 #
 #
 # Look, I know I can just download the project or 
@@ -18,8 +18,8 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
-from flaskr.auth import login_required
-from flaskr.db import get_db
+from app.auth import login_required
+from app.db import get_db
 
 bp = Blueprint('glob', __name__)
 
@@ -28,7 +28,32 @@ def index():
     db = get_db()
     posts = db.execute(
         'SELECT id, source, body, created'
-        ' FROM post *'
+        ' FROM post'
         ' ORDER BY created DESC'
     ).fetchall()
     return render_template('glob/index.html', posts=posts)
+
+@bp.route('/create', methods=('GET', 'POST'))
+@login_required
+def create():
+    if request.method == 'POST':
+        source = request.form['source']
+        body = request.form['body']
+        error = None
+
+        if not source:
+            source = "web"
+
+        if error is not None:
+            flash(error)
+        else:
+            db = get_db()
+            db.execute(
+                'INSERT INTO post (source, body)'
+                ' VALUES (?, ?)',
+                (source, body)
+            )
+            db.commit()
+            return redirect(url_for('glob.index'))
+
+    return render_template('glob/create.html')
