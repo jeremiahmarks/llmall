@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}New Post{% endblock %}</h1>
+  <h1>{% block title %}New Input{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <form method="post">
     <label for="source">Source</label>
-    <input name="source" id="source" value="{{ request.form['source'] }}" required>
-    <label for="body">Body</label>
-    <textarea name="body" id="body">{{ request.form['body'] }}</textarea>
+    <input name="source" id="source" value="{{ request.form.get('source', 'web') }}" >
+    <label for="body">Input</label>
+    <textarea name="body" id="body" required autofocus>{{ request.form.get('body', '') }}</textarea>
     <input type="submit" value="Save">
   </form>
 {% endblock %}

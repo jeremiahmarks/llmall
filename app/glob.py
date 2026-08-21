@@ -2,7 +2,7 @@
 # @Author: Jeremiah.Marks
 # @Date:   2026-08-18 13:18:10
 # @Last Modified by:   Jeremiah.Marks
-# @Last Modified time: 2026-08-18 15:00:43
+# @Last Modified time: 2026-08-20 16:33:47
 #
 #
 # Look, I know I can just download the project or 
@@ -37,11 +37,11 @@ def index():
 @login_required
 def create():
     if request.method == 'POST':
-        source = request.form['source']
-        body = request.form['body']
+        source = request.form['source'].strip() or 'web'
+        body = request.form['body'].strip()
         error = None
 
-        if not source:
+        if not body:
             source = "web"
 
         if error is not None:
