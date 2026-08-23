@@ -2,7 +2,7 @@
 # @Author: Jeremiah.Marks
 # @Date:   2026-08-18 13:18:10
 # @Last Modified by:   Jeremiah.Marks
-# @Last Modified time: 2026-08-20 16:33:47
+# @Last Modified time: 2026-08-23 10:35:51
 #
 #
 # Look, I know I can just download the project or 
@@ -24,6 +24,7 @@ from app.db import get_db
 bp = Blueprint('glob', __name__)
 
 @bp.route('/')
+@login_required
 def index():
     db = get_db()
     posts = db.execute(
@@ -42,7 +43,7 @@ def create():
         error = None
 
         if not body:
-            source = "web"
+            error = "Body Content required"
 
         if error is not None:
             flash(error)
